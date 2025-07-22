@@ -4,20 +4,16 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => ({
   plugins: [react(), tailwindcss()],
-  base: mode === 'production' ? '/static/' : '/',
+  base: '/',
+  preBuild: {
+    commands: ['npm ci']
+  },
   build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['react-toastify']
-        }
-      }
-    }
+    commands: ['npm run build']
+  },
+  artifacts: {
+    baseDirectory: 'dist',
+    files: ['**/*']
   },
   server: {
     port: 5173,
